@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:17
 WORKDIR /app
 # Selecciona el único jar principal
 COPY --from=build /app/target/*.jar app.jar
