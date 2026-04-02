@@ -8,7 +8,7 @@ RUN mvn clean package -DskipTests
 # Etapa de ejecución
 FROM eclipse-temurin:17-jre-slim
 WORKDIR /app
-# Se usa un patrón más específico para evitar copiar el -plain.jar generado por Spring Boot 3
-COPY --from=build /app/target/*[^plain].jar app.jar
+# Selecciona el único jar principal (Spring Boot renombró el original a .original)
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-Xmx512m", "-Dserver.port=${PORT:8080}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx512m", "-Dserver.port=${PORT:8080}", "-Dserver.address=0.0.0.0", "-jar", "app.jar"]
